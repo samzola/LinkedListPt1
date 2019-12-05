@@ -1,63 +1,68 @@
+
+//imports
 #include <iostream>
 #include "Node.h"
 #include "Student.h"
 
 using namespace std;
 
-void add();
-void print(Node* next);
+void add(); //function to add a student
+void print(Node* next); //function to print list
 
-Node* head = NULL;
+Node* head = NULL; //create first node and set to null
 
 int main() {
-  bool running = true;
-  char* command = new char[10];
-  //char* name = new char[30];
-  while (running == true) {
+  bool running = true; //keeps track of if the program is still running
+  char* command = new char[10]; //command for add, print, or quit
+  while (running == true) { //run this loop while still running
+    //ask user to enter a command
     cout << endl << "Please enter a command (add, print, or quit)" << endl;
-    cin.getline(command, 30, '\n');
-    if (strcmp(command, "add") == 0) {
-      add();
+    cin.getline(command, 30, '\n'); //read in command
+    if (strcmp(command, "add") == 0) { //if they enter "add"
+      add(); //run add function
     }
-    else if (strcmp(command, "print") == 0) {
-      print(head);
+    else if (strcmp(command, "print") == 0) { //if they enter "print"
+      print(head); //run print function, starting at head
     }
-    else if (strcmp(command, "quit") == 0) {
-      running = false;
+    else if (strcmp(command, "quit") == 0) { //if they enter "quit"
+      running = false; //make running false, end program
+    }
+    else { //if command is invalid, tell user to try again
+      cout << "Invalid command. Please try again." << endl;
     }
   }
 }
 
-void add() {
-  char* name = new char[30];
-  cout << "Please enter the student's name." << endl;
-  cin.getline(name, 30, '\n');
-  Student* newStudent = new Student(name);
-  Node* current = head;
-  if (current == NULL) {
-    head = new Node(newStudent);
-    head->setStudent(newStudent);
+void add() { //function to add a student
+  char* name = new char[30]; //char that keeps track of the name
+  cout << "Please enter the student's name." << endl; //tell user to enter name
+  cin.getline(name, 30, '\n'); //read in name
+  Student* newStudent = new Student(name); //make a new student with the entered name
+  Node* current = head; //make a node, current, equal to the first node
+  if (current == NULL) { //if the current node has no student
+    head = new Node(newStudent); //make a node with the recently made student
+    head->setStudent(newStudent); //set student of the node
   }
-  else {
-    while (current->getNext() != NULL) {
-      current = current->getNext();
+  else { //if current node has a student
+    while (current->getNext() != NULL) { //when the next node has no student
+      current = current->getNext(); //make current the next node
     }
-    current->setNext(new Node(newStudent));
-    current->getNext()->setStudent(newStudent);
+    current->setNext(new Node(newStudent)); //set the recently made student to the empty node
+    current->getNext()->setStudent(newStudent); //set student of node
   }
 }
 
-void print(Node* next) {
-  if (next == head) {
-    cout << "list: ";
+void print(Node* next) { //function for printing list
+  if (next == head) { //if at beginning of list
+    cout << "list: "; //print out "list: "
   }
-  if (next != NULL) {
-    if (next->getNext() != NULL) {
-      cout << next->getStudent()->getName() << ", "; 
+  if (next != NULL) { //if the node has a student in it
+    if (next->getNext() != NULL) { //if the next node has a student in it 
+      cout << next->getStudent()->getName() << ", "; //print name of student with comma after
     }
-    else if (next->getNext() == NULL) {
-      cout << next->getStudent()->getName() << " ";
+    else if (next->getNext() == NULL) { //if the next node has no student
+      cout << next->getStudent()->getName() << " "; //print name of student w/o comma after
     }
-    print(next->getNext());
+    print(next->getNext()); //recursion, keep printing until end of list
   }
 }
