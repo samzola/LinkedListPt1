@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void add(char* name);
+void add();
 void print(Node* next);
 
 Node* head = NULL;
@@ -12,15 +12,12 @@ Node* head = NULL;
 int main() {
   bool running = true;
   char* command = new char[10];
-  char* name = new char[30];
+  //char* name = new char[30];
   while (running == true) {
-    cout << "Please enter a command (add, print, or quit)" << endl;
-    cin.getline(command, 30,  '\n');
-
+    cout << endl << "Please enter a command (add, print, or quit)" << endl;
+    cin.getline(command, 30, '\n');
     if (strcmp(command, "add") == 0) {
-      cout << "Enter the student's name: ";
-      cin.getline(name, 30, '\n');
-      //add(name);
+      add();
     }
     else if (strcmp(command, "print") == 0) {
       print(head);
@@ -31,11 +28,15 @@ int main() {
   }
 }
 
-void add(char* name) {
+void add() {
+  char* name = new char[30];
+  cout << "Please enter the student's name." << endl;
+  cin.getline(name, 30, '\n');
   Student* newStudent = new Student(name);
   Node* current = head;
   if (current == NULL) {
     head = new Node(newStudent);
+    head->setStudent(newStudent);
   }
   else {
     while (current->getNext() != NULL) {
@@ -51,7 +52,12 @@ void print(Node* next) {
     cout << "list: ";
   }
   if (next != NULL) {
-    cout << next->getStudent()->getName() << ", " << endl;
+    if (next->getNext() != NULL) {
+      cout << next->getStudent()->getName() << ", "; 
+    }
+    else if (next->getNext() == NULL) {
+      cout << next->getStudent()->getName() << " ";
+    }
     print(next->getNext());
   }
 }
