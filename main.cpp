@@ -1,3 +1,8 @@
+/*
+ * Author: Sam Zola
+ * Date: 12/9/2019
+ * Program: This program allows the user to create a linked list of students.
+ */
 
 //imports
 #include <iostream>
